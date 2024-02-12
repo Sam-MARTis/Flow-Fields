@@ -88,7 +88,7 @@ class Effect {
 
     this.#context.clearRect(0, 0, this.width, this.height);
 
-    this.particles.forEach((particle) => {
+    this.particles.forEach((particle, index) => {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
