@@ -5,7 +5,6 @@ let width;
 let height;
 let timeOld;
 let effect;
-let delTime = 0;
 let clickState = 0;
 let mouseX = 0;
 let mouseY = 0;
@@ -85,7 +84,7 @@ class Effect {
   }
   updateDots() {
     // let timeNew = Date.now();
-    delTime = parseInt(Date.now() - timeOld);
+    let delTime = parseInt(Date.now() - timeOld);
     // console.log(delTime);
     this.#context.clearRect(0, 0, this.width, this.height);
 
@@ -120,14 +119,14 @@ class Effect {
         );
         particle.acceleration.x =
           (50 * ((particle.x - mouseX) / Math.abs(mouseX - particle.x))) /
-          (100*(distanceMouse/100)**2);
+          (100 * (distanceMouse / 100) ** 2);
         particle.acceleration.y =
           (50 * ((particle.y - mouseY) / Math.abs(mouseY - particle.y))) /
           (100 * (distanceMouse / 100) ** 4);
-        if (particle.acceleration.x > 2) particle.acceleration.x = 2;
-        if (particle.acceleration.y > 2) particle.acceleration.y = 2;
-        if (particle.acceleration.x < -2) particle.acceleration.x = -2;
-        if (particle.acceleration.y < -2) particle.acceleration.y = -2;
+        if (particle.acceleration.x > 1) particle.acceleration.x = 1;
+        if (particle.acceleration.y > 1) particle.acceleration.y = 1;
+        if (particle.acceleration.x < -1) particle.acceleration.x = -1;
+        if (particle.acceleration.y < -1) particle.acceleration.y = -1;
         particle.velocity.x += particle.acceleration.x;
         particle.velocity.y += particle.acceleration.y;
       } else {
@@ -177,8 +176,6 @@ addEventListener("mousedown", (e) => {
   clickState = 1;
 });
 addEventListener("mouseup", (e) => {
-  
-  
   clickState = 0;
   console.log(e);
 });
