@@ -129,6 +129,10 @@ class Effect {
         if (particle.acceleration.y < -1) particle.acceleration.y = -1;
         particle.velocity.x += particle.acceleration.x;
         particle.velocity.y += particle.acceleration.y;
+        if (particle.velocity.x > 10) particle.velocity.x = 10;
+        if (particle.velocity.y > 10) particle.velocity.y = 10;
+        if (particle.velocity.x < -10) particle.velocity.x = -10;
+        if (particle.velocity.y < -10) particle.velocity.y = -10;
       } else {
         particle.acceleration.x = 0;
         particle.acceleration.y = 0;
@@ -158,7 +162,7 @@ class Effect {
 //Main function
 const main = () => {
   effect = new Effect(context, window.innerWidth, window.innerHeight, 10);
-  effect.addDots(200);
+  effect.addDots(230);
   setInterval(() => {
     effect.updateDots();
   }, 10);
