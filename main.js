@@ -60,6 +60,7 @@ class Effect {
     this.height = height;
     this.count = count;
     this.particles = [];
+    this.delTime = 10;
   }
 
   changeDims(width, height) {
@@ -83,19 +84,17 @@ class Effect {
     }
   }
   updateDots() {
-    // let timeNew = Date.now();
-    let delTime = parseInt(Date.now() - timeOld);
-    // console.log(delTime);
+
+
     this.#context.clearRect(0, 0, this.width, this.height);
 
-    // console.log("Animating");
-    this.particles.forEach((particle, delTime) => {
+    this.particles.forEach((particle) => {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
-      // console.log(delTime);
-      x += particle.velocity.x * 0.002 * delTime;
-      y += particle.velocity.y * 0.002 * delTime;
+      let delTime = Date.now() - timeOld+1;
+      x += particle.velocity.x * 0.002 * 100 *delTime;
+      y += particle.velocity.y * 0.002 * 100 * delTime;
 
       if (x >= this.width - r) {
         x = this.width - r;
