@@ -76,7 +76,7 @@ class Effect {
         x,
         y,
         radius,
-        `hsl(${Math.random() * 30}, 100%, 50%)`,
+        `red`,
         this.#context
       );
       this.particles.push(particle);
@@ -145,7 +145,7 @@ class Effect {
           this.#context.beginPath();
           this.#context.globalAlpha = (1 - d / 200) ** 1.2;
           this.#context.moveTo(x, y);
-          this.#context.strokeStyle = `hsl(${Math.random() * 30}, 100%, 50%)`;
+          this.#context.strokeStyle = `red`;
           this.#context.lineTo(x2, y2);
           this.#context.stroke();
           this.#context.restore();
