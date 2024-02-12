@@ -65,7 +65,13 @@ class Effect {
       let x = Math.random() * (this.width - 2 * radius) + radius;
       let y = Math.random() * (this.height - 2 * radius) + radius;
 
-      let particle = new Particle(x, y, radius, `hsl(${Math.random()*30}, 100%, 50%)`, this.#context);
+      let particle = new Particle(
+        x,
+        y,
+        radius,
+        `hsl(${Math.random() * 30}, 100%, 50%)`,
+        this.#context
+      );
       this.particles.push(particle);
     }
   }
@@ -74,35 +80,52 @@ class Effect {
 
     console.log("Animating");
     this.particles.forEach((particle) => {
-      particle.x += particle.velocity.x * 0.5;
-      particle.y += particle.velocity.y * 0.5;
-      if (particle.x >= this.width - particle.radius) {
-        particle.x = this.width - particle.radius;
+      let x = particle.x;
+      let y = particle.y;
+      x += particle.velocity.x * 0.2;
+      y += particle.velocity.y * 0.2;
+      if (x >= this.width - particle.radius) {
+        x = this.width - particle.radius;
         particle.velocity.x *= -1;
-      } else if (particle.x <= particle.radius) {
-        particle.x = particle.radius;
+      } else if (x <= particle.radius) {
+        x = particle.radius;
         particle.velocity.x *= -1;
-      } else if (particle.y >= this.height - particle.radius) {
-        particle.y = this.height - particle.radius;
+      } else if (y >= this.height - particle.radius) {
+        y = this.height - particle.radius;
         particle.velocity.y *= -1;
-      } else if (particle.y <= particle.radius) {
-        particle.y = particle.radius;
+      } else if (y <= particle.radius) {
+        y = particle.radius;
         particle.velocity.y *= -1;
       }
+      particle.x = x;
+      particle.y = y;
       particle.draw();
+      this.particles.forEach((particle2) => {
+        let x2 = particle2.x;
+        let y2 = particle2.y;
+        let d = ((x - x2) ** 2 + (y - y2) ** 2) ** 0.5;
+        if (d < 200) {
+          this.#context.save();
+          this.#context.beginPath();
+          this.#context.globalAlpha = 1 - d / 200;
+          this.#context.moveTo(x, y);
+          this.#context.strokeStyle= "white";
+          this.#context.lineTo(x2, y2);
+          this.#context.stroke()
+          this.#context.restore();
+        }
+      });
     });
-
   }
 }
 
 //Main function
 const main = () => {
-
   effect = new Effect(context, window.innerWidth, window.innerHeight, 10);
   effect.addDots(100);
   setInterval(() => {
     effect.updateDots();
-  }, 10);
+  }, 20);
 };
 
 addEventListener("resize", () => {
