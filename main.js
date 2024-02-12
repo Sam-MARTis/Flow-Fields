@@ -3,7 +3,8 @@ let canvas;
 let context;
 let width;
 let height;
-
+let timeOld;
+let effect;
 //Onload function
 window.onload = () => {
   canvas = document.getElementById("canvas");
@@ -27,8 +28,8 @@ class Particle {
     this.radius = radius;
     this.color = color;
     this.velocity = {
-      x: Math.random() * 4 - 2,
-      y: Math.random() * 4 - 2,
+      x: Math.random() * 30 - 15,
+      y: Math.random() * 30 - 15,
     };
   }
 
@@ -53,38 +54,59 @@ class Effect {
     this.count = count;
     this.particles = [];
   }
+
+  changeDims(width, height) {
+    this.width = width;
+    this.height = height;
+  }
   addDots(count) {
     for (let i = 0; i < count; i++) {
-      let radius = Math.random() * 10 + 2;
-      let x = Math.random() * (this.width - 2 * radius);
-      let y = Math.random() * (this.height - 2 * radius);
+      let radius = Math.random() * 6 + 2;
+      let x = Math.random() * (this.width - 2 * radius) + radius;
+      let y = Math.random() * (this.height - 2 * radius) + radius;
 
-      let particle = new Particle(x, y, radius, "red", this.#context);
-      //   particle.draw();
-    //   console.log("Pushing");
+      let particle = new Particle(x, y, radius, `hsl(${Math.random()*30}, 100%, 50%)`, this.#context);
       this.particles.push(particle);
-    //   console.log("Pushed");
     }
   }
-  drawDots() {
-    console.log(this.particles);
-    // console.log("Starting to draw particle");
+  updateDots() {
+    this.#context.clearRect(0, 0, this.width, this.height);
+
+    console.log("Animating");
     this.particles.forEach((particle) => {
-    //   console.log("Drawing particle");
+      particle.x += particle.velocity.x * 0.5;
+      particle.y += particle.velocity.y * 0.5;
+      if (particle.x >= this.width - particle.radius) {
+        particle.x = this.width - particle.radius;
+        particle.velocity.x *= -1;
+      } else if (particle.x <= particle.radius) {
+        particle.x = particle.radius;
+        particle.velocity.x *= -1;
+      } else if (particle.y >= this.height - particle.radius) {
+        particle.y = this.height - particle.radius;
+        particle.velocity.y *= -1;
+      } else if (particle.y <= particle.radius) {
+        particle.y = particle.radius;
+        particle.velocity.y *= -1;
+      }
       particle.draw();
     });
+
   }
 }
 
 //Main function
 const main = () => {
-  //   let particle = new Particle(100, 100, 20, "red", context);
-  //   particle.draw();
-  let effect = new Effect(context, window.innerWidth, window.innerHeight, 10);
-  effect.addDots(10);
-//   console.log("Added dots");
-  setTimeout(() => {
-    // console.log("Drawing");
-    effect.drawDots();
-  }, 1000);
+
+  effect = new Effect(context, window.innerWidth, window.innerHeight, 10);
+  effect.addDots(100);
+  setInterval(() => {
+    effect.updateDots();
+  }, 10);
 };
+
+addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  effect.changeDims(canvas.width, canvas.height);
+});
