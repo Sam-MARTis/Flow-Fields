@@ -75,6 +75,7 @@ class Effect {
     this.count = count;
     this.particles = [];
     this.delTime = 10;
+    this.friction = 0.9;
     this.scaleFactor = scaleFactor;
   }
 
@@ -84,7 +85,7 @@ class Effect {
   }
   addDots(count) {
     for (let i = 0; i < count; i++) {
-      let radius = (Math.random() * 6 + 2) * this.scaleFactor;
+      let radius = (Math.random() * 6 + 2) * this.scaleFactor/3;
       let x = Math.random() * (this.width - 2 * radius) + radius;
       let y = Math.random() * (this.height - 2 * radius) + radius;
 
@@ -95,7 +96,7 @@ class Effect {
   }
   updateDots() {
     this.#context.clearRect(0, 0, this.width, this.height);
-    this.#context.lineWidth = (1 * width) / 1000;
+    this.#context.lineWidth = (1 * (this.scaleFactor)**0.3) / 10;
     // timeOld = Date.now();
     let timeNew = Date.now();
 
@@ -104,21 +105,21 @@ class Effect {
       let y = particle.y;
       let r = particle.radius;
       let delTime = timeNew - timeOld + 1;
-      x += particle.velocity.x * 0.001 * 100 * delTime * this.scaleFactor;
-      y += particle.velocity.y * 0.001 * 100 * delTime * this.scaleFactor;
+      x += particle.velocity.x * 0.001 * 10 * delTime * this.scaleFactor;
+      y += particle.velocity.y * 0.001 * 10 * delTime * this.scaleFactor;
 
       if (x >= window.innerWidth - r) {
         x = window.innerWidth - r;
-        particle.velocity.x *= -1;
+        particle.velocity.x *= -this.friction;
       } else if (x <= r) {
         x = r;
-        particle.velocity.x *= -1;
+        particle.velocity.x *= -this.friction;
       } else if (y >= window.innerHeight - r) {
         y = window.innerHeight - r;
-        particle.velocity.y *= -1;
+        particle.velocity.y *= -this.friction;
       } else if (y <= r) {
         y = r;
-        particle.velocity.y *= -1;
+        particle.velocity.y *= -this.friction;
       }
       particle.x = x;
       particle.y = y;
@@ -128,24 +129,24 @@ class Effect {
           (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2
         );
         particle.acceleration.x =
-          (-this.scaleFactor * 200 * Math.sign(mouseX - particle.x)) /
-          ((distanceMouse / 10) * this.scaleFactor) ** 4;
+          ( -50 * Math.sign(mouseX - particle.x)) /
+          ((distanceMouse /(this.scaleFactor*10))) ** 4;
         particle.acceleration.y =
-          (-this.scaleFactor * 200 * Math.sign(mouseY - particle.y)) /
-          ((distanceMouse / 10) * this.scaleFactor) ** 4;
-        let bound = 1 * this.scaleFactor;
+          (-50 * Math.sign(mouseY - particle.y)) /
+          ((distanceMouse /(this.scaleFactor*10))) ** 4;
+        let bound = 0.6 * this.scaleFactor;
         if (particle.acceleration.x > bound) particle.acceleration.x = bound;
         if (particle.acceleration.y > bound) particle.acceleration.y = bound;
         if (particle.acceleration.x < -bound) particle.acceleration.x = -bound;
         if (particle.acceleration.y < -bound) particle.acceleration.y = -bound;
         particle.velocity.x += particle.acceleration.x;
         particle.velocity.y += particle.acceleration.y;
-        if (particle.velocity.x > 80 * bound) particle.velocity.x = 80 * bound;
-        if (particle.velocity.y > 80 * bound) particle.velocity.y = 80 * bound;
-        if (particle.velocity.x < -80 * bound)
-          particle.velocity.x = -80 * bound;
-        if (particle.velocity.y < -80 * bound)
-          particle.velocity.y = -80 * bound;
+        if (particle.velocity.x > 7 * bound) particle.velocity.x = 7 * bound;
+        if (particle.velocity.y > 7 * bound) particle.velocity.y = 7 * bound;
+        if (particle.velocity.x < -7 * bound)
+          particle.velocity.x = -7 * bound;
+        if (particle.velocity.y < -7 * bound)
+          particle.velocity.y = -7 * bound;
       } else {
         particle.acceleration.x = 0;
         particle.acceleration.y = 0;
@@ -157,10 +158,11 @@ class Effect {
         let x2 = particle2.x;
         let y2 = particle2.y;
         let d = ((x - x2) ** 2 + (y - y2) ** 2) ** 0.5;
-        if (d < 200 * this.scaleFactor) {
+        let distVal = 80 * this.scaleFactor;
+        if (d < distVal) {
           this.#context.save();
           this.#context.beginPath();
-          this.#context.globalAlpha = (1 - d / 200) ** 1.2;
+          this.#context.globalAlpha = (1 - (d / distVal)**2);
           this.#context.moveTo(x, y);
 
           this.#context.strokeStyle = `red`;
@@ -174,9 +176,13 @@ class Effect {
   }
 }
 
+const findScaleFactor = () => {
+  let scaleFactor = Math.sqrt(height ** 2 + width ** 2) / 800;
+  return scaleFactor;
+}
 //Main function
 const main = () => {
-  scaleFactor = Math.max(height, width) / 1834;
+  scaleFactor = findScaleFactor();
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
   effect.addDots(200);
@@ -184,7 +190,7 @@ const main = () => {
   setInterval(() => {
     effect.updateDots();
     timeOld = Date.now();
-  }, 10);
+  }, 50);
 };
 
 const handleResize = () => {
@@ -203,7 +209,7 @@ const handleResize = () => {
   width = canvas.width / devicePixelRatio;
   height = canvas.height / devicePixelRatio;
 
-  scaleFactor = Math.max(height, width) / 1834;
+  scaleFactor = findScaleFactor(  )
   effect.changeDims(width, height, scaleFactor);
   console.log("Scalefactor is: ", scaleFactor);
 };
