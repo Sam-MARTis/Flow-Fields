@@ -96,12 +96,13 @@ class Effect {
   updateDots() {
     this.#context.clearRect(0, 0, this.width, this.height);
     this.#context.lineWidth = (1 * width) / 1000;
+    let timeNew = Date.now();
 
     this.particles.forEach((particle, index) => {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
-      let delTime = Date.now() - timeOld + 1;
+      let delTime = timeNew - timeOld + 1;
       x += particle.velocity.x * 0.001 * 100 * delTime * this.scaleFactor;
       y += particle.velocity.y * 0.001 * 100 * delTime * this.scaleFactor;
 
@@ -180,7 +181,7 @@ const main = () => {
 
   setInterval(() => {
     effect.updateDots();
-  }, 10);
+  }, 1);
 };
 
 const handleResize = () => {
