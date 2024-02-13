@@ -53,9 +53,17 @@ window.onload = () => {
 
   //Call the main function
   setTimeout(() => {
-    // alert(`Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`)
+    alert(
+      `Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`
+    );
+    alert(
+      "canvas width is: " +
+        canvas.width +
+        " and canvas height is: " +
+        canvas.height
+    );
     main();
-    // handleResize();
+    handleResize();
   }, 100);
 };
 
@@ -197,16 +205,10 @@ class Effect {
 //Main function
 const main = () => {
   scaleFactor = Math.sqrt(height * width) / 1500;
-  effect = new Effect(
-    context,
-    width,
-    height,
-    10,
-    scaleFactor
-  );
-  // handleResize();
+  effect = new Effect(context, width, height, 10, scaleFactor);
+  handleResize();
   effect.addDots(230);
-  
+
   setInterval(() => {
     effect.updateDots();
   }, 10);
