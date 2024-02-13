@@ -8,13 +8,25 @@ let effect;
 let clickState = 0;
 let mouseX = 0;
 let mouseY = 0;
+let debugging = 1;
 //Onload function
 window.onload = () => {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
   canvas.width = 1500;
   canvas.height = 900;
-  context.scale(window.innerWidth / 1500, window.innerHeight / 900);
+  context.translate(0.5, 0.5);
+  let size = window.innerWidth;
+
+  // Set actual size in memory (scaled to account for extra pixel density).
+  let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+  canvas.width = size * scale;
+  canvas.height = size * scale;
+
+  // Normalize coordinate system to use css pixels.
+  context.scale(scale, scale);
+  
+  // context.scale(window.innerWidth / 1500, window.innerHeight / 900);
 
   // width = canvas.width = window.innerWidth;
   // height = canvas.height = window.innerHeight;
