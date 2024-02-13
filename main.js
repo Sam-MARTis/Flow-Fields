@@ -168,7 +168,7 @@ class Effect {
         if (d < distVal) {
           this.#context.save();
           this.#context.beginPath();
-          this.#context.globalAlpha = (1 - (d / distVal)**2);
+          this.#context.globalAlpha = 1.5*(1 - (d / distVal)**2);
           this.#context.moveTo(x, y);
 
           this.#context.strokeStyle = `red`;
@@ -184,6 +184,9 @@ class Effect {
 
 const findScaleFactor = () => {
   let scaleFactor = (height + width) / 1300;
+  if (height / width > 1.5) {
+    scaleFactor = width / 300;
+  }
   return scaleFactor;
 }
 //Main function
@@ -196,7 +199,7 @@ const main = () => {
   setInterval(() => {
     effect.updateDots();
     timeOld = Date.now();
-  }, 50);
+  }, 5);
 };
 
 const handleResize = () => {
