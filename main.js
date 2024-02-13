@@ -78,10 +78,10 @@ class Effect {
     this.friction = 0.9;
     this.scaleFactor = scaleFactor;
     if (scaleFactor > 0.5) {
-      this.#context.lineWidth = (1 * this.scaleFactor ** 0.3) / 10;
+      this.#context.lineWidth = 300+ (1 * this.scaleFactor ** 0.3) / 10;
     }
     else {
-      this.#context.lineWidth = (2 * this.scaleFactor ** 0.3) / 1;
+      this.#context.lineWidth = 300+ (2 * this.scaleFactor ** 0.3) / 1;
     }
   }
 
