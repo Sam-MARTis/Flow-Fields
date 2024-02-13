@@ -53,7 +53,7 @@ window.onload = () => {
 
   //Call the main function
   setTimeout(() => {
-    alert(`Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`)
+    // alert(`Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`)
     main();
     // handleResize();
   }, 100);
@@ -199,12 +199,12 @@ const main = () => {
   scaleFactor = Math.sqrt(height * width) / 1500;
   effect = new Effect(
     context,
-    window.innerWidth,
-    window.innerHeight,
+    width,
+    height,
     10,
     scaleFactor
   );
-  handleResize();
+  // handleResize();
   effect.addDots(230);
   
   setInterval(() => {
