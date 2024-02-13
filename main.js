@@ -15,7 +15,6 @@ window.onload = () => {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
 
-
   devicePixelRatio = window.devicePixelRatio || 1;
 
   canvas.width = window.innerWidth * devicePixelRatio;
@@ -91,11 +90,13 @@ class Effect {
 
       let particle = new Particle(x, y, radius, `red`, this.#context);
       this.particles.push(particle);
+      timeOld = Date.now();
     }
   }
   updateDots() {
     this.#context.clearRect(0, 0, this.width, this.height);
     this.#context.lineWidth = (1 * width) / 1000;
+    // timeOld = Date.now();
     let timeNew = Date.now();
 
     this.particles.forEach((particle, index) => {
@@ -139,19 +140,19 @@ class Effect {
         if (particle.acceleration.y < -bound) particle.acceleration.y = -bound;
         particle.velocity.x += particle.acceleration.x;
         particle.velocity.y += particle.acceleration.y;
-        if (particle.velocity.x > 10 * bound) particle.velocity.x = 10 * bound;
-        if (particle.velocity.y > 10 * bound) particle.velocity.y = 10 * bound;
-        if (particle.velocity.x < -10 * bound)
-          particle.velocity.x = -10 * bound;
-        if (particle.velocity.y < -10 * bound)
-          particle.velocity.y = -10 * bound;
+        if (particle.velocity.x > 80 * bound) particle.velocity.x = 80 * bound;
+        if (particle.velocity.y > 80 * bound) particle.velocity.y = 80 * bound;
+        if (particle.velocity.x < -80 * bound)
+          particle.velocity.x = -80 * bound;
+        if (particle.velocity.y < -80 * bound)
+          particle.velocity.y = -80 * bound;
       } else {
         particle.acceleration.x = 0;
         particle.acceleration.y = 0;
       }
 
       particle.draw();
-      timeOld = Date.now();
+      
       this.particles.forEach((particle2) => {
         let x2 = particle2.x;
         let y2 = particle2.y;
@@ -169,12 +170,13 @@ class Effect {
         }
       });
     });
+    timeOld = Date.now();
   }
 }
 
 //Main function
 const main = () => {
-  scaleFactor = Math.sqrt(height * width) / 1334;;
+  scaleFactor = Math.max(height, width) / 1834;
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
   effect.addDots(230);
@@ -186,7 +188,6 @@ const main = () => {
 
 const handleResize = () => {
   console.log(window.innerWidth, window.innerHeight);
-
 
   devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -201,7 +202,7 @@ const handleResize = () => {
   width = canvas.width / devicePixelRatio;
   height = canvas.height / devicePixelRatio;
 
-  scaleFactor = Math.sqrt(height * width) / 1334;
+  scaleFactor = Math.max(height, width) / 1834;
   effect.changeDims(width, height, scaleFactor);
   console.log("Scalefactor is: ", scaleFactor);
 };
