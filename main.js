@@ -105,8 +105,8 @@ class Effect {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
-      x += particle.velocity.x  * 0.1*this.scaleFactor;
-      y += particle.velocity.y  * 0.1*this.scaleFactor;
+      x += particle.velocity.x  * 0.05*this.scaleFactor;
+      y += particle.velocity.y  * 0.05*this.scaleFactor;
 
       if (x >= window.innerWidth - r) {
         x = window.innerWidth - r;
@@ -161,7 +161,7 @@ class Effect {
           this.#context.save();
           this.#context.beginPath();
           this.#context.lineWidth = Math.max(width, height) / 800;
-          this.#context.globalAlpha = 1.5 * (1 - (d / distVal) ** 2);
+          this.#context.globalAlpha = (1 - (d / distVal) ** 2);
           this.#context.moveTo(x, y);
 
           this.#context.strokeStyle = `red`;
@@ -190,7 +190,7 @@ const main = () => {
 
   setInterval(() => {
     effect.updateDots();
-  }, 3);
+  }, 1);
 };
 
 const handleResize = () => {
