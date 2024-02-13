@@ -44,6 +44,7 @@ window.onload = () => {
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
 
+  valueSize = Math.max(window.innerWidth, window.innerHeight);
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
 
