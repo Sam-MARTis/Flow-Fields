@@ -170,7 +170,7 @@ class Effect {
         }
       });
     });
-    timeOld = Date.now();
+    
   }
 }
 
@@ -179,11 +179,12 @@ const main = () => {
   scaleFactor = Math.max(height, width) / 1834;
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
-  effect.addDots(230);
+  effect.addDots(200);
 
   setInterval(() => {
     effect.updateDots();
-  }, 1);
+    timeOld = Date.now();
+  }, 10);
 };
 
 const handleResize = () => {
