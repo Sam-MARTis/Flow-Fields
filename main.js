@@ -77,6 +77,12 @@ class Effect {
     this.delTime = 10;
     this.friction = 0.9;
     this.scaleFactor = scaleFactor;
+    if (scaleFactor > 0.5) {
+      this.#context.lineWidth = (1 * this.scaleFactor ** 0.3) / 10;
+    }
+    else {
+      this.#context.lineWidth = (2 * this.scaleFactor ** 0.3) / 1;
+    }
   }
 
   changeDims(width, height) {
@@ -96,7 +102,7 @@ class Effect {
   }
   updateDots() {
     this.#context.clearRect(0, 0, this.width, this.height);
-    this.#context.lineWidth = (1 * (this.scaleFactor)**0.3) / 10;
+    
     // timeOld = Date.now();
     let timeNew = Date.now();
 
