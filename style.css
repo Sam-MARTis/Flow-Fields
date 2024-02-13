@@ -6,12 +6,11 @@
 canvas{
     background-color: black;
 }
-#Version{
+/* #Version{
     position: absolute;
     top: 0;
     left: 0;
     color:aliceblue;
     font-size: 20px;
     padding: 10px;
-    /* background-color:black; */
-}
+} */
