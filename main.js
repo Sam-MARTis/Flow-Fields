@@ -171,11 +171,11 @@ class Effect {
         }
       });
     });
-  }
+  requestAnimationFrame(this.updateDots.bind(this));}
 }
 
 const findScaleFactor = () => {
-  let scaleFactor = Math.max(height + width) / 1300;
+  let scaleFactor = Math.max(height + width) / 1000;
   // if (height / width > 1.5) {
   //   scaleFactor = width / 300;
   // }
@@ -187,10 +187,11 @@ const main = () => {
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
   effect.addDots(130);
+  effect.updateDots();
 
-  setInterval(() => {
-    effect.updateDots();
-  }, 30);
+//   setInterval(() => {
+//     effect.updateDots();
+//   }, 30);
 };
 
 const handleResize = () => {
