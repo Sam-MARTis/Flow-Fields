@@ -204,7 +204,7 @@ class Effect {
 
 //Main function
 const main = () => {
-  scaleFactor = Math.sqrt(height * width) / 1500;
+  scaleFactor = Math.sqrt(height * width) / 1334;;
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
   effect.addDots(230);
@@ -243,7 +243,7 @@ const handleResize = () => {
   width = canvas.width / devicePixelRatio;
   height = canvas.height / devicePixelRatio;
 
-  scaleFactor = Math.sqrt(height * width) / 970;
+  scaleFactor = Math.sqrt(height * width) / 1334;
   effect.changeDims(width, height, scaleFactor);
   console.log("Scalefactor is: ", scaleFactor);
 };
