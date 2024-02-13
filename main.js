@@ -52,14 +52,19 @@ class Particle {
       x: 0,
       y: 0,
     };
+    this.#context.strokeStyle = `${this.color}`;
+    this.#context.fillStyle = this.color;
+    
   }
 
   draw() {
     this.#context.beginPath();
-    this.#context.strokeStyle = `${this.color}`;
+    
+    
+    
 
     this.#context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    this.#context.fillStyle = this.color;
+    
     this.#context.fill();
 
     this.#context.stroke();
@@ -77,12 +82,7 @@ class Effect {
     this.delTime = 10;
     this.friction = 0.9;
     this.scaleFactor = scaleFactor;
-    if (scaleFactor > 0.5) {
-      this.#context.lineWidth = 300+ (1 * this.scaleFactor ** 0.3) / 10;
-    }
-    else {
-      this.#context.lineWidth = 300+ (2 * this.scaleFactor ** 0.3) / 1;
-    }
+    
   }
 
   changeDims(width, height) {
@@ -104,15 +104,13 @@ class Effect {
     this.#context.clearRect(0, 0, this.width, this.height);
     
     // timeOld = Date.now();
-    let timeNew = Date.now();
 
     this.particles.forEach((particle, index) => {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
-      let delTime = timeNew - timeOld + 1;
-      x += particle.velocity.x * 0.001 * 10 * delTime * this.scaleFactor;
-      y += particle.velocity.y * 0.001 * 10 * delTime * this.scaleFactor;
+      x += particle.velocity.x * 0.001 * 10* 10* this.scaleFactor;
+      y += particle.velocity.y * 0.001 * 10* 10* this.scaleFactor;
 
       if (x >= window.innerWidth - r) {
         x = window.innerWidth - r;
@@ -168,8 +166,10 @@ class Effect {
         if (d < distVal) {
           this.#context.save();
           this.#context.beginPath();
+          this.#context.lineWidth = Math.max(width, height) / 500;
           this.#context.globalAlpha = 1.5*(1 - (d / distVal)**2);
           this.#context.moveTo(x, y);
+          
 
           this.#context.strokeStyle = `red`;
           this.#context.lineTo(x2, y2);
@@ -183,10 +183,10 @@ class Effect {
 }
 
 const findScaleFactor = () => {
-  let scaleFactor = (height + width) / 1300;
-  if (height / width > 1.5) {
-    scaleFactor = width / 300;
-  }
+  let scaleFactor = Math.max(height + width) / 1300;
+  // if (height / width > 1.5) {
+  //   scaleFactor = width / 300;
+  // }
   return scaleFactor;
 }
 //Main function
@@ -194,12 +194,11 @@ const main = () => {
   scaleFactor = findScaleFactor();
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
-  effect.addDots(150);
+  effect.addDots(130);
 
   setInterval(() => {
     effect.updateDots();
-    timeOld = Date.now();
-  }, 5);
+  }, 20);
 };
 
 const handleResize = () => {
