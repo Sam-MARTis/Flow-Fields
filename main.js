@@ -14,31 +14,9 @@ let devicePixelRatio;
 window.onload = () => {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
-  // canvas.width = 1500;
-  // canvas.height = 900;
-  // context.translate(0.5, 0.5);
-  // let size = window.innerWidth;
 
-  // // Set actual size in memory (scaled to account for extra pixel density).
-  // let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-  // canvas.width = size * scale;
-  // canvas.height = size * scale;
-
-  // Normalize coordinate system to use css pixels.
-  // context.scale(scale, scale);
-
-  // context.scale(window.innerWidth / 1500, window.innerHeight / 900);
-
-  // width = canvas.width = window.innerWidth;
-  // height = canvas.height = window.innerHeight;
-
-  // width = canvas.width = 1500;
-  // height = canvas.height =1000;
-  // canvas.style.height = document.height + "px";
-  // canvas.style.width = document.width + "px";
 
   devicePixelRatio = window.devicePixelRatio || 1;
-  // devicePixelRatio = 10;
 
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
@@ -53,15 +31,6 @@ window.onload = () => {
 
   //Call the main function
   setTimeout(() => {
-    alert(
-      `Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`
-    );
-    alert(
-      "canvas width is: " +
-        canvas.width +
-        " and canvas height is: " +
-        canvas.height
-    );
     main();
     handleResize();
   }, 100);
@@ -216,21 +185,9 @@ const main = () => {
 
 const handleResize = () => {
   console.log(window.innerWidth, window.innerHeight);
-  // devicePixelRatio = window.devicePixelRatio || 1;
 
-  // canvas.width = 1500 * devicePixelRatio;
-  // canvas.height = 1000 * devicePixelRatio;
-
-  // canvas.style.width = 1500 + "px";
-  // canvas.style.height = 1000 + "px";
-
-  // context.scale(devicePixelRatio, devicePixelRatio);
-
-  // width = canvas.width / devicePixelRatio;
-  // height = canvas.height / devicePixelRatio;
 
   devicePixelRatio = window.devicePixelRatio || 1;
-  // devicePixelRatio = 10;
 
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
@@ -249,7 +206,6 @@ const handleResize = () => {
 };
 
 addEventListener("resize", handleResize);
-// addEventListener("keydown", (e) => { console.log(e) })
 
 addEventListener("mousedown", (e) => {
   mouseX = e.clientX;
