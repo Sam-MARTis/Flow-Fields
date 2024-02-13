@@ -9,7 +9,7 @@ let clickState = 0;
 let mouseX = 0;
 let mouseY = 0;
 let debugging = 1;
-let devicePixelRatio;;
+let devicePixelRatio;
 //Onload function
 window.onload = () => {
   canvas = document.getElementById("canvas");
@@ -26,7 +26,7 @@ window.onload = () => {
 
   // Normalize coordinate system to use css pixels.
   // context.scale(scale, scale);
-  
+
   // context.scale(window.innerWidth / 1500, window.innerHeight / 900);
 
   // width = canvas.width = window.innerWidth;
@@ -36,7 +36,6 @@ window.onload = () => {
   // height = canvas.height =1000;
   // canvas.style.height = document.height + "px";
   // canvas.style.width = document.width + "px";
-  
 
   devicePixelRatio = window.devicePixelRatio || 1;
   // devicePixelRatio = 10;
@@ -44,7 +43,6 @@ window.onload = () => {
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
 
-  valueSize = Math.max(window.innerWidth, window.innerHeight);
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
 
@@ -52,11 +50,11 @@ window.onload = () => {
 
   width = canvas.width / devicePixelRatio;
   height = canvas.height / devicePixelRatio;
-  
 
   //Call the main function
   setTimeout(() => {
     main();
+    handleResize();
   }, 100);
 };
 
@@ -109,7 +107,7 @@ class Effect {
   }
   addDots(count) {
     for (let i = 0; i < count; i++) {
-      let radius = (Math.random() * 6 +2)*this.scaleFactor;
+      let radius = (Math.random() * 6 + 2) * this.scaleFactor;
       let x = Math.random() * (this.width - 2 * radius) + radius;
       let y = Math.random() * (this.height - 2 * radius) + radius;
 
@@ -151,10 +149,10 @@ class Effect {
         );
         particle.acceleration.x =
           (-this.scaleFactor * 200 * Math.sign(mouseX - particle.x)) /
-          (distanceMouse / 10*this.scaleFactor) ** 4;
+          ((distanceMouse / 10) * this.scaleFactor) ** 4;
         particle.acceleration.y =
           (-this.scaleFactor * 200 * Math.sign(mouseY - particle.y)) /
-          (distanceMouse / 10*this.scaleFactor) ** 4;
+          ((distanceMouse / 10) * this.scaleFactor) ** 4;
         let bound = 1 * this.scaleFactor;
         if (particle.acceleration.x > bound) particle.acceleration.x = bound;
         if (particle.acceleration.y > bound) particle.acceleration.y = bound;
@@ -179,7 +177,7 @@ class Effect {
         let x2 = particle2.x;
         let y2 = particle2.y;
         let d = ((x - x2) ** 2 + (y - y2) ** 2) ** 0.5;
-        if (d < 200 * (this.scaleFactor)) {
+        if (d < 200 * this.scaleFactor) {
           this.#context.save();
           this.#context.beginPath();
           this.#context.globalAlpha = (1 - d / 200) ** 1.2;
@@ -197,7 +195,7 @@ class Effect {
 
 //Main function
 const main = () => {
-  scaleFactor = Math.sqrt(height*width) / 1500;
+  scaleFactor = Math.sqrt(height * width) / 1500;
   effect = new Effect(
     context,
     window.innerWidth,
@@ -211,7 +209,7 @@ const main = () => {
   }, 10);
 };
 
-addEventListener("resize", () => {
+const handleResize = () => {
   console.log(window.innerWidth, window.innerHeight);
   // devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -226,27 +224,26 @@ addEventListener("resize", () => {
   // width = canvas.width / devicePixelRatio;
   // height = canvas.height / devicePixelRatio;
 
-
   devicePixelRatio = window.devicePixelRatio || 1;
   // devicePixelRatio = 10;
 
-canvas.width = window.innerWidth * devicePixelRatio;
-canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
 
-canvas.style.width = window.innerWidth + "px";
-canvas.style.height = window.innerHeight + "px";
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
 
-context.scale(devicePixelRatio, devicePixelRatio);
+  context.scale(devicePixelRatio, devicePixelRatio);
 
-width = canvas.width / devicePixelRatio;
-height = canvas.height / devicePixelRatio;
+  width = canvas.width / devicePixelRatio;
+  height = canvas.height / devicePixelRatio;
 
-
-
-  scaleFactor = Math.sqrt(height*width)/970;
+  scaleFactor = Math.sqrt(height * width) / 970;
   effect.changeDims(canvas.width, canvas.height, scaleFactor);
-  console.log('Scalefactor is: ', scaleFactor);
-});
+  console.log("Scalefactor is: ", scaleFactor);
+};
+
+addEventListener("resize", handleResize);
 // addEventListener("keydown", (e) => { console.log(e) })
 
 addEventListener("mousedown", (e) => {
