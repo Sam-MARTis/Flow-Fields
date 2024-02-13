@@ -9,30 +9,48 @@ let clickState = 0;
 let mouseX = 0;
 let mouseY = 0;
 let debugging = 1;
+let devicePixelRatio;;
 //Onload function
 window.onload = () => {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
-  canvas.width = 1500;
-  canvas.height = 900;
-  context.translate(0.5, 0.5);
-  let size = window.innerWidth;
+  // canvas.width = 1500;
+  // canvas.height = 900;
+  // context.translate(0.5, 0.5);
+  // let size = window.innerWidth;
 
-  // Set actual size in memory (scaled to account for extra pixel density).
-  let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-  canvas.width = size * scale;
-  canvas.height = size * scale;
+  // // Set actual size in memory (scaled to account for extra pixel density).
+  // let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+  // canvas.width = size * scale;
+  // canvas.height = size * scale;
 
   // Normalize coordinate system to use css pixels.
-  context.scale(scale, scale);
+  // context.scale(scale, scale);
   
   // context.scale(window.innerWidth / 1500, window.innerHeight / 900);
 
   // width = canvas.width = window.innerWidth;
   // height = canvas.height = window.innerHeight;
 
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
+  // width = canvas.width = 1500;
+  // height = canvas.height =1000;
+  // canvas.style.height = document.height + "px";
+  // canvas.style.width = document.width + "px";
+  
+
+  devicePixelRatio = window.devicePixelRatio || 1;
+
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+
+  context.scale(devicePixelRatio, devicePixelRatio);
+
+  width = canvas.width / devicePixelRatio;
+  height = canvas.height / devicePixelRatio;
+  
 
   //Call the main function
   setTimeout(() => {
@@ -73,7 +91,7 @@ class Particle {
 
 class Effect {
   #context;
-  constructor(context, width, height, count, scaleFactor = 1) {
+  constructor(context, width, height, count, scaleFactor) {
     this.#context = context;
     this.width = width;
     this.height = height;
@@ -89,7 +107,7 @@ class Effect {
   }
   addDots(count) {
     for (let i = 0; i < count; i++) {
-      let radius = Math.random() * 6 * this.scaleFactor + 2;
+      let radius = (Math.random() * 6 +2)*this.scaleFactor;
       let x = Math.random() * (this.width - 2 * radius) + radius;
       let y = Math.random() * (this.height - 2 * radius) + radius;
 
@@ -159,7 +177,7 @@ class Effect {
         let x2 = particle2.x;
         let y2 = particle2.y;
         let d = ((x - x2) ** 2 + (y - y2) ** 2) ** 0.5;
-        if (d < 200 * this.scaleFactor) {
+        if (d < 200 * (this.scaleFactor)) {
           this.#context.save();
           this.#context.beginPath();
           this.#context.globalAlpha = (1 - d / 200) ** 1.2;
@@ -177,7 +195,7 @@ class Effect {
 
 //Main function
 const main = () => {
-  scaleFactor = Math.min(canvas.height / 1500, canvas.width / 1000);
+  scaleFactor = Math.min(height, width) / 1500;
   effect = new Effect(
     context,
     window.innerWidth,
@@ -192,10 +210,38 @@ const main = () => {
 };
 
 addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  scaleFactor = Math.min(canvas.height / 1000, canvas.width / 1500);
+  // devicePixelRatio = window.devicePixelRatio || 1;
+
+  // canvas.width = 1500 * devicePixelRatio;
+  // canvas.height = 1000 * devicePixelRatio;
+
+  // canvas.style.width = 1500 + "px";
+  // canvas.style.height = 1000 + "px";
+
+  // context.scale(devicePixelRatio, devicePixelRatio);
+
+  // width = canvas.width / devicePixelRatio;
+  // height = canvas.height / devicePixelRatio;
+
+
+devicePixelRatio = window.devicePixelRatio || 1;
+
+canvas.width = window.innerWidth * devicePixelRatio;
+canvas.height = window.innerHeight * devicePixelRatio;
+
+canvas.style.width = window.innerWidth + "px";
+canvas.style.height = window.innerHeight + "px";
+
+context.scale(devicePixelRatio, devicePixelRatio);
+
+width = canvas.width / devicePixelRatio;
+height = canvas.height / devicePixelRatio;
+
+
+
+  scaleFactor = Math.min(height, width)/970;
   effect.changeDims(canvas.width, canvas.height, scaleFactor);
+  console.log('Scalefactor is: ', scaleFactor);
 });
 // addEventListener("keydown", (e) => { console.log(e) })
 
