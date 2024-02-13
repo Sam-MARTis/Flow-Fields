@@ -105,8 +105,8 @@ class Effect {
       let x = particle.x;
       let y = particle.y;
       let r = particle.radius;
-      x += particle.velocity.x  * 0.05*this.scaleFactor;
-      y += particle.velocity.y  * 0.05*this.scaleFactor;
+      x += particle.velocity.x  * 0.5*this.scaleFactor;
+      y += particle.velocity.y  * 0.5*this.scaleFactor;
 
       if (x >= window.innerWidth - r) {
         x = window.innerWidth - r;
@@ -190,7 +190,7 @@ const main = () => {
 
   setInterval(() => {
     effect.updateDots();
-  }, 1);
+  }, 30);
 };
 
 const handleResize = () => {
