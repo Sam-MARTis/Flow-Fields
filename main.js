@@ -39,6 +39,7 @@ window.onload = () => {
   
 
   devicePixelRatio = window.devicePixelRatio || 1;
+  // devicePixelRatio = 10;
 
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
@@ -127,14 +128,14 @@ class Effect {
       x += particle.velocity.x * 0.001 * 100 * delTime * this.scaleFactor;
       y += particle.velocity.y * 0.001 * 100 * delTime * this.scaleFactor;
 
-      if (x >= this.width - r) {
-        x = this.width - r;
+      if (x >= window.innerWidth - r) {
+        x = window.innerWidth - r;
         particle.velocity.x *= -1;
       } else if (x <= r) {
         x = r;
         particle.velocity.x *= -1;
-      } else if (y >= this.height - r) {
-        y = this.height - r;
+      } else if (y >= window.innerHeight - r) {
+        y = window.innerHeight - r;
         particle.velocity.y *= -1;
       } else if (y <= r) {
         y = r;
@@ -148,11 +149,11 @@ class Effect {
           (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2
         );
         particle.acceleration.x =
-          (-this.scaleFactor * 50 * Math.sign(mouseX - particle.x)) /
-          (distanceMouse / 50) ** 8;
+          (-this.scaleFactor * 200 * Math.sign(mouseX - particle.x)) /
+          (distanceMouse / 10*this.scaleFactor) ** 4;
         particle.acceleration.y =
-          (-this.scaleFactor * 50 * Math.sign(mouseY - particle.y)) /
-          (distanceMouse / 50) ** 8;
+          (-this.scaleFactor * 200 * Math.sign(mouseY - particle.y)) /
+          (distanceMouse / 10*this.scaleFactor) ** 4;
         let bound = 1 * this.scaleFactor;
         if (particle.acceleration.x > bound) particle.acceleration.x = bound;
         if (particle.acceleration.y > bound) particle.acceleration.y = bound;
@@ -195,7 +196,7 @@ class Effect {
 
 //Main function
 const main = () => {
-  scaleFactor = Math.min(height, width) / 1500;
+  scaleFactor = Math.sqrt(height*width) / 1500;
   effect = new Effect(
     context,
     window.innerWidth,
@@ -210,6 +211,7 @@ const main = () => {
 };
 
 addEventListener("resize", () => {
+  console.log(window.innerWidth, window.innerHeight);
   // devicePixelRatio = window.devicePixelRatio || 1;
 
   // canvas.width = 1500 * devicePixelRatio;
@@ -224,7 +226,8 @@ addEventListener("resize", () => {
   // height = canvas.height / devicePixelRatio;
 
 
-devicePixelRatio = window.devicePixelRatio || 1;
+  devicePixelRatio = window.devicePixelRatio || 1;
+  // devicePixelRatio = 10;
 
 canvas.width = window.innerWidth * devicePixelRatio;
 canvas.height = window.innerHeight * devicePixelRatio;
@@ -239,7 +242,7 @@ height = canvas.height / devicePixelRatio;
 
 
 
-  scaleFactor = Math.min(height, width)/970;
+  scaleFactor = Math.sqrt(height*width)/970;
   effect.changeDims(canvas.width, canvas.height, scaleFactor);
   console.log('Scalefactor is: ', scaleFactor);
 });
