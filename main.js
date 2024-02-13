@@ -183,7 +183,7 @@ class Effect {
 }
 
 const findScaleFactor = () => {
-  let scaleFactor = Math.sqrt(height ** 2 + width ** 2) / 800;
+  let scaleFactor = (height + width) / 1300;
   return scaleFactor;
 }
 //Main function
