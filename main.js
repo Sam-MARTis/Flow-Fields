@@ -194,7 +194,7 @@ const main = () => {
   scaleFactor = findScaleFactor();
   effect = new Effect(context, width, height, 10, scaleFactor);
   handleResize();
-  effect.addDots(200);
+  effect.addDots(150);
 
   setInterval(() => {
     effect.updateDots();
