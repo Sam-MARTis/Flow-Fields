@@ -55,7 +55,7 @@ window.onload = () => {
   setTimeout(() => {
     alert(`Width of device is: ${window.innerWidth} and height is: ${window.innerHeight}`)
     main();
-    handleResize();
+    // handleResize();
   }, 100);
 };
 
@@ -206,6 +206,7 @@ const main = () => {
   );
   handleResize();
   effect.addDots(230);
+  
   setInterval(() => {
     effect.updateDots();
   }, 10);
@@ -241,7 +242,7 @@ const handleResize = () => {
   height = canvas.height / devicePixelRatio;
 
   scaleFactor = Math.sqrt(height * width) / 970;
-  effect.changeDims(canvas.width, canvas.height, scaleFactor);
+  effect.changeDims(width, height, scaleFactor);
   console.log("Scalefactor is: ", scaleFactor);
 };
 
