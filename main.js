@@ -91,7 +91,7 @@ class Effect {
       let x = Math.random() * (this.width - 2 * radius) + radius;
       let y = Math.random() * (this.height - 2 * radius) + radius;
 
-      let particle = new Particle(x, y, radius, `red`, this.#context);
+      let particle = new Particle(x, y, radius/2, `red`, this.#context);
       this.particles.push(particle);
       timeOld = Date.now();
     }
