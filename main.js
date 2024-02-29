@@ -3,13 +3,15 @@ let canvas;
 let context;
 let width;
 let height;
-let timeOld;
+// let timeOld;
 let effect;
 let clickState = 0;
 let mouseX = 0;
 let mouseY = 0;
 let debugging = 1;
 let devicePixelRatio;
+let timeNew = Date.now();
+let timeOld = Date.now();
 //Onload function
 window.onload = () => {
   canvas = document.getElementById("canvas");
@@ -99,7 +101,7 @@ class Effect {
   updateDots() {
     this.#context.clearRect(0, 0, this.width, this.height);
 
-    // timeOld = Date.now();
+    timeNew = Date.now();
 
     this.particles.forEach((particle, index) => {
       let x = particle.x;
